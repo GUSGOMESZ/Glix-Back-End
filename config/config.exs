@@ -53,7 +53,7 @@ config :spark,
 config :glix_back_end,
   ecto_repos: [GlixBackEnd.Repo],
   generators: [timestamp_type: :utc_datetime],
-  ash_domains: [GlixBackEnd.Accounts, GlixBackEnd.Content, GlixBackEnd.Taxonomy]
+  ash_domains: [GlixBackEnd.Accounts, GlixBackEnd.Content, GlixBackEnd.Taxonomy, GlixBackEnd.Engagement]
 
 # Configures the endpoint
 config :glix_back_end, GlixBackEndWeb.Endpoint,
