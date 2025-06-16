@@ -5,5 +5,6 @@ defmodule GlixBackEnd.Accounts do
   resources do
     resource GlixBackEnd.Accounts.Token
     resource GlixBackEnd.Accounts.User
+    resource GlixBackEnd.Accounts.Follow
   end
 end
