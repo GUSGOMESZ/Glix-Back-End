@@ -2,17 +2,53 @@ defmodule GlixBackEnd.Content.Post do
   use Ash.Resource,
     otp_app: :glix_back_end,
     domain: GlixBackEnd.Content,
-    data_layer: AshPostgres.DataLayer
+    data_layer: AshPostgres.DataLayer,
+    extensions: [AshGraphql.Resource]
+
+  graphql do
+    type :post
+
+    queries do
+      list :list_posts, :read
+    end
+
+    mutations do
+      create :create_post, :create_post
+    end
+  end
 
   actions do
-    defaults [:read, :destroy, create: :*, update: :*]
+    defaults [:read, :destroy, update: :*]
+
+    create :create_post do
+      argument :user_id, :string do
+        description "Author ID"
+        allow_nil? false
+        public? true
+      end
+
+      argument :title, :string do
+        description "Posts title"
+        allow_nil? false
+        public? true
+      end
+
+      argument :content, :string do
+        description "Posts content"
+        allow_nil? false
+        public? true
+      end
+
+      change set_attribute(:title, arg(:title))
+      change set_attribute(:content, arg(:content))
+      change set_attribute(:user_id, arg(:user_id))
+    end
   end
 
   postgres do
     table "posts"
     repo GlixBackEnd.Repo
   end
-
 
   attributes do
     uuid_v7_primary_key :id

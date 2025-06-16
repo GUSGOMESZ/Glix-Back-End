@@ -2,7 +2,7 @@ defmodule GlixBackEndWeb.GraphqlSchema do
   use Absinthe.Schema
 
   use AshGraphql,
-    domains: [GlixBackEnd.Accounts]
+    domains: [GlixBackEnd.Accounts, GlixBackEnd.Content]
 
   import_types Absinthe.Plug.Types
 
