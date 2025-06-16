@@ -4,5 +4,7 @@ defmodule GlixBackEnd.Engagement do
 
   resources do
     resource GlixBackEnd.Engagement.Comment
+    resource GlixBackEnd.Engagement.LikePost
+    resource GlixBackEnd.Engagement.LikeComment
   end
 end
