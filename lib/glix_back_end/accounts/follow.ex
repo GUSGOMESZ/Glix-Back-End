@@ -1,9 +1,9 @@
 defmodule GlixBackEnd.Accounts.Follow do
   use Ash.Resource,
-  otp_app: :glix_back_end,
-  domain: GlixBackEnd.Accounts,
-  data_layer: AshPostgres.DataLayer,
-  authorizers: [Ash.Policy.Authorizer]
+    otp_app: :glix_back_end,
+    domain: GlixBackEnd.Accounts,
+    data_layer: AshPostgres.DataLayer,
+    authorizers: [Ash.Policy.Authorizer]
 
   postgres do
     table "follows"

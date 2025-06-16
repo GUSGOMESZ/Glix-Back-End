@@ -22,6 +22,6 @@ defmodule GlixBackEnd.Content.Post do
   end
 
   relationships do
-    belongs_to :user, GlixBackEnd.Accounts.User, primary_key?: true, allow_nil?: false
+    belongs_to :user, GlixBackEnd.Accounts.User, primary_key?: false, allow_nil?: false
   end
 end

@@ -16,5 +16,6 @@ defmodule GlixBackEnd.Content.PostTag do
 
   relationships do
     belongs_to :post, GlixBackEnd.Content.Post, primary_key?: true, allow_nil?: false
+    belongs_to :tag, GlixBackEnd.Taxonomy.Tag, primary_key?: true, allow_nil?: false
   end
 end
