@@ -39,9 +39,13 @@ defmodule GlixBackEnd.Content.Post do
         public? true
       end
 
+      argument :post_tag, {:array, :map}
+
       change set_attribute(:title, arg(:title))
       change set_attribute(:content, arg(:content))
       change set_attribute(:user_id, arg(:user_id))
+
+      change manage_relationship(:post_tag, type: :create, on_no_match: :create, on_match: :error)
     end
   end
 
@@ -59,5 +63,6 @@ defmodule GlixBackEnd.Content.Post do
 
   relationships do
     belongs_to :user, GlixBackEnd.Accounts.User, primary_key?: false, allow_nil?: false
+    has_many :post_tag, GlixBackEnd.Content.PostTag, public?: true
   end
 end
