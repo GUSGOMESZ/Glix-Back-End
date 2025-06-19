@@ -3,20 +3,7 @@ defmodule GlixBackEnd.Content.PostTag do
     otp_app: :glix_back_end,
     domain: GlixBackEnd.Content,
     data_layer: AshPostgres.DataLayer,
-    authorizers: [Ash.Policy.Authorizer],
-    extensions: [AshGraphql.Resource]
-
-  graphql do
-    type :post_tag
-
-    queries do
-    end
-
-    mutations do
-      create :create_post_tag, :create
-    end
-
-  end
+    authorizers: [Ash.Policy.Authorizer]
 
   postgres do
     table "post_tags"
@@ -33,8 +20,13 @@ defmodule GlixBackEnd.Content.PostTag do
     end
   end
 
+  attributes do
+    uuid_v7_primary_key :id
+
+    attribute :tag, :string, public?: true, allow_nil?: false
+  end
+
   relationships do
-    belongs_to :post, GlixBackEnd.Content.Post, primary_key?: true, allow_nil?: false
-    belongs_to :tag, GlixBackEnd.Taxonomy.Tag, primary_key?: true, allow_nil?: false
+    belongs_to :post, GlixBackEnd.Content.Post, primary_key?: false, allow_nil?: false
   end
 end
