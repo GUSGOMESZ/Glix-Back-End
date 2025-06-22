@@ -66,7 +66,7 @@ defmodule GlixBackEnd.Content.Post do
     end
 
     action :get_user_total_posts, :integer do
-      argument :user_id, :uuid_v7, allow_nil?: true
+      argument :user_id, :uuid_v7, allow_nil?: false
 
       run fn input, _ ->
         id = input.arguments.user_id

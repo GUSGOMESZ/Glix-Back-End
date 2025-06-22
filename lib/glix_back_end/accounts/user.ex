@@ -175,9 +175,16 @@ defmodule GlixBackEnd.Accounts.User do
         sensitive? true
       end
 
+      argument :fullname, :string do
+        description "The proposed user fullname"
+        allow_nil? false
+        sensitive? true
+      end
+
       # Sets the email from the argument
       change set_attribute(:email, arg(:email))
       change set_attribute(:username, arg(:username))
+      change set_attribute(:fullname, arg(:fullname))
 
       # Hashes the provided password
       change AshAuthentication.Strategy.Password.HashPasswordChange
@@ -261,6 +268,11 @@ defmodule GlixBackEnd.Accounts.User do
 
   attributes do
     uuid_primary_key :id
+
+    attribute :fullname, :string do
+      allow_nil? false
+      public? true
+    end
 
     attribute :username, :string do
       allow_nil? false
