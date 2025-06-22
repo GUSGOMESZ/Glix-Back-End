@@ -3,7 +3,16 @@ defmodule GlixBackEnd.Content.PostTag do
     otp_app: :glix_back_end,
     domain: GlixBackEnd.Content,
     data_layer: AshPostgres.DataLayer,
-    authorizers: [Ash.Policy.Authorizer]
+    authorizers: [Ash.Policy.Authorizer],
+    extensions: [AshGraphql.Resource]
+
+  graphql do
+    type :post_tag
+
+    queries do
+      action :get_trendings, :get_trendings
+    end
+  end
 
   postgres do
     table "post_tags"
@@ -12,6 +21,28 @@ defmodule GlixBackEnd.Content.PostTag do
 
   actions do
     defaults [:read, :destroy, create: :*, update: :*]
+
+    action :get_trendings, :map do
+      run fn _, _ ->
+        result = GlixBackEnd.Repo.query!("""
+          SELECT tag, COUNT(*) as count
+          FROM post_tags
+          GROUP BY tag
+          ORDER BY count DESC
+          LIMIT 5
+        """)
+
+        trending_tags = result.rows
+        |> Enum.map(fn [tag, count] ->
+          %{
+            tag: tag,
+            count: count
+          }
+        end)
+
+        {:ok, trending_tags}
+      end
+    end
   end
 
   policies do

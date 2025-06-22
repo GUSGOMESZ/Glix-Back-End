@@ -1,4 +1,5 @@
 defmodule GlixBackEnd.Content.Post do
+  require Ash.Query
   use Ash.Resource,
     otp_app: :glix_back_end,
     domain: GlixBackEnd.Content,
@@ -9,6 +10,7 @@ defmodule GlixBackEnd.Content.Post do
     type :post
 
     queries do
+      action :get_user_total_posts, :get_user_total_posts
       list :list_posts, :read
     end
 
@@ -46,6 +48,35 @@ defmodule GlixBackEnd.Content.Post do
       change set_attribute(:user_id, arg(:user_id))
 
       change manage_relationship(:post_tag, type: :create, on_no_match: :create, on_match: :error)
+    end
+
+    read :read_by_user do
+      argument :user_id, :uuid_v7 do
+        allow_nil? true
+        public? true
+      end
+
+      filter expr(
+        if is_nil(^arg(:user_id)) do
+          true
+        else
+          user_id == ^arg(:user_id)
+        end
+      )
+    end
+
+    action :get_user_total_posts, :integer do
+      argument :user_id, :uuid_v7, allow_nil?: true
+
+      run fn input, _ ->
+        id = input.arguments.user_id
+
+        posts = GlixBackEnd.Content.Post
+        |> Ash.Query.for_read(:read_by_user, %{user_id: id})
+        |> Ash.read!()
+
+        {:ok, length(posts)}
+      end
     end
   end
 
